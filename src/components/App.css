@@ -1,0 +1,16 @@
+.question-container {
+  padding: 20px;
+  text-align: center;
+}
+.question-statement {
+  font-size: 24px;
+}
+.options {
+  flex-direction: row;
+  align-items: flex-start;
+}
+.onClick {
+  background-color: brown;
+  width: 20px;
+  height: 5px;
+}
