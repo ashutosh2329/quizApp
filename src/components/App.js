@@ -1,61 +1,57 @@
 import { React, useState } from "react";
-import './App.css'
-import { Button } from '@material-ui/core';
-
-
+import "./App.css";
+import { Button } from "@material-ui/core";
+import Qbank from './question';
 
 export default function QuizApp() {
   const [option, setoption] = useState();
 
-  
   function handleClick(event) {
-    var element = document.getElementById(event.target.id);
-    element.classList.toggle("onClick");
-    console.log(event.target);
+    const id = ["A", "B", "C", "D"];
+    id.splice(id.indexOf(event.target.id), 1);
+    id.forEach((id) => {
+      document.getElementById(id).classList = "option";
+    });
+    document.getElementById(event.target.id).classList.toggle("onClick");
     setoption(event.target.textContent);
   }
 
   function handleSubmit() {
-    console.log("submitted");
-    console.log(option);
-    
+    var Score = 0;
+    (option === Qbank[0].answer) ? Score++ : console.log("wrong");
+    return (
+      <div>
+        <h1>
+          Your Score is {Score} out of 1
+        </h1>
+      </div>
+    )
   }
 
   return (
     <div>
-    <div className="question-container">
-      <div className="question-statement">
-        What is your name?
-      </div>
-      
-        <div className="option"
-          onClick={handleClick}
-          id="A">
-          option A
+      <div className="question-container">
+        <div className="question-statement">{ Qbank[0].Question}</div>
+
+        <div className="option" onClick={handleClick} id="A">
+          {Qbank[0].options[0]}
         </div>
-        <div className="option"
-          onClick={handleClick}
-          id="B">
-          option B
+        <div className="option" onClick={handleClick} id="B">
+          { Qbank[0].options[1]}
         </div>
 
-        <div className="option"
-          onClick={handleClick}
-          id="C">
-          option C
+        <div className="option" onClick={handleClick} id="C">
+          { Qbank[0].options[2]}
         </div>
 
-        <div className="option"
-          onClick={handleClick}
-          id="D">
-          option D
+        <div className="option" onClick={handleClick} id="D">
+          { Qbank[0].options[3]}
         </div>
       </div>
-      <Button
-        color="primary" onClick={handleSubmit}>
+      <Button color="primary" onClick={handleSubmit}>
         Submit
-       </Button>
-      </div>
-
+      </Button>
+      
+    </div>
   );
 }

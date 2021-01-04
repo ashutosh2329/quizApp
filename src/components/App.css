@@ -5,12 +5,10 @@
 .question-statement {
   font-size: 24px;
 }
-.options {
-  flex-direction: row;
+.option {
+  flex-direction: column;
   align-items: flex-start;
 }
 .onClick {
   background-color: brown;
-  width: 20px;
-  height: 5px;
 }
