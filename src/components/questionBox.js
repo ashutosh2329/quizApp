@@ -23,13 +23,10 @@ export default function QuestionBox({ question, counter, setResult }) {
   const handleClick = (value) => {
     if (!clicked) {
       setClicked(true);
-      var element = document.getElementById(value.id);
-      if (answer === value.textContent.slice(3)) {
+      if (answer === value.slice(3)) {
         setResult(1);
-        element.style.backgroundColor = "Lime";
       } else {
         setResult(0);
-        element.style.backgroundColor = "red";
       }
     }
   };
@@ -45,18 +42,18 @@ export default function QuestionBox({ question, counter, setResult }) {
         {counter}.{question.Question}
       </Typography>
       <div>
-        <div onClick={(e) => handleClick(e.target)}>
-          <Option id="A" data={`a. ${question.options[0]}`} />
+        <div onClick={(e) => handleClick(e.target.textContent)}>
+          <Option data={`a. ${question.options[0]}`} />
         </div>
-        <div onClick={(e) => handleClick(e.target)}>
-          <Option id="B" data={`b. ${question.options[1]}`} />
+        <div onClick={(e) => handleClick(e.target.textContent)}>
+          <Option data={`b. ${question.options[1]}`} />
         </div>
-        <div onClick={(e) => handleClick(e.target)}>
-          <Option id="C" data={`c. ${question.options[2]}`} />
+        <div onClick={(e) => handleClick(e.target.textContent)}>
+          <Option data={`c. ${question.options[2]}`} />
         </div>
 
-        <div onClick={(e) => handleClick(e.target)}>
-          <Option id="D" data={`d. ${question.options[3]}`} />
+        <div onClick={(e) => handleClick(e.target.textContent)}>
+          <Option data={`d. ${question.options[3]}`} />
         </div>
       </div>
     </Paper>
