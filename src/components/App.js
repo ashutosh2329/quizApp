@@ -1,57 +1,63 @@
-import { React, useState } from "react";
+import { Card, Container, Typography } from "@material-ui/core";
+import { Component, React } from "react";
 import "./App.css";
-import { Button } from "@material-ui/core";
-import Qbank from './question';
+import QUESTIONS from "./question";
+import QuestionBox from "./questionBox";
 
-export default function QuizApp() {
-  const [option, setoption] = useState();
-
-  function handleClick(event) {
-    const id = ["A", "B", "C", "D"];
-    id.splice(id.indexOf(event.target.id), 1);
-    id.forEach((id) => {
-      document.getElementById(id).classList = "option";
-    });
-    document.getElementById(event.target.id).classList.toggle("onClick");
-    setoption(event.target.textContent);
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      questions: QUESTIONS,
+      result: 0,
+    };
   }
 
-  function handleSubmit() {
-    var Score = 0;
-    (option === Qbank[0].answer) ? Score++ : console.log("wrong");
+  render() {
+    let counter = 1;
     return (
-      <div>
-        <h1>
-          Your Score is {Score} out of 1
-        </h1>
-      </div>
-    )
+      <Container>
+        <Typography variant="h2">Homepage</Typography>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <div style={{ flex: 5, marginRight: 20 }}>
+            {this.state.questions.map((question) => {
+              return (
+                <QuestionBox
+                  key={question.Question}
+                  question={question}
+                  counter={counter++}
+                  setResult={(res) => {
+                    this.setState({ result: this.state.result + res }, () => {
+                      console.log(this.state);
+                    });
+                  }}
+                />
+              );
+            })}
+          </div>
+          <div style={{ flex: 1 }}>
+            <div
+              style={{
+                position: "fixed",
+                right: 300,
+                top: 400,
+                backgroundColor: "lightskyblue",
+                height: 200,
+                width: 200,
+                textAlign: "center",
+                paddingTop: 40,
+              }}
+            >
+              <Typography variant="h4">RESULT</Typography>
+              <Typography variant="h2" color="textSecondary">
+                {this.state.result}
+              </Typography>
+            </div>
+          </div>
+        </div>
+      </Container>
+    );
   }
-
-  return (
-    <div>
-      <div className="question-container">
-        <div className="question-statement">{ Qbank[0].Question}</div>
-
-        <div className="option" onClick={handleClick} id="A">
-          {Qbank[0].options[0]}
-        </div>
-        <div className="option" onClick={handleClick} id="B">
-          { Qbank[0].options[1]}
-        </div>
-
-        <div className="option" onClick={handleClick} id="C">
-          { Qbank[0].options[2]}
-        </div>
-
-        <div className="option" onClick={handleClick} id="D">
-          { Qbank[0].options[3]}
-        </div>
-      </div>
-      <Button color="primary" onClick={handleSubmit}>
-        Submit
-      </Button>
-      
-    </div>
-  );
 }
+
+export default App;
