@@ -50,7 +50,7 @@ class App extends Component {
             >
               <Typography variant="h4">RESULT</Typography>
               <Typography variant="h2" color="textSecondary">
-                {this.state.result}
+                {this.state.result}/{counter - 1}
               </Typography>
             </div>
           </div>
