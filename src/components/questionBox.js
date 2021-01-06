@@ -1,33 +1,24 @@
 import React, { useState } from "react";
-import Button from "@material-ui/core/Button";
-import { Card, Container, Paper, Typography } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 
-const Option = ({ data }) => {
-  return (
-    <Typography
-      variant="h6"
-      color="textSecondary"
-      style={{ height: 50, padding: 10, marginTop: 10 }}
-    >
-      {data}
-    </Typography>
-  );
-};
-
-export default function QuestionBox({ question, counter, setResult }) {
+// main Questionbox function
+export default function QuestionBox({
+  question,
+  counter,
+  setResult,
+  setTotalMarks,
+}) {
   const answer = question.answer;
-  var optionSelected = 0;
-  const [clicked, setClicked] = useState(false);
-  const [clickedValue, setClickedValue] = useState("");
+  const [clicked, setClicked] = useState("-1");
+  var optionNumber = 65;
 
-  const handleClick = (value) => {
-    if (!clicked) {
-      setClicked(true);
-      optionSelected = value;
-      if (answer === value) {
+  // function to handle selections
+  const handleSelect = (value, j) => {
+    if (clicked === "-1") {
+      setClicked(j);
+      setTotalMarks(1);
+      if (value === answer) {
         setResult(1);
-      } else {
-        setResult(0);
       }
     }
   };
@@ -37,35 +28,66 @@ export default function QuestionBox({ question, counter, setResult }) {
       style={{
         padding: 20,
         marginTop: 30,
+        borderRadius: 20,
       }}
     >
       <Typography variant="h4" style={{ marginBottom: 20 }}>
-        {counter}.{question.Question}
+        Q {counter}. {question.Question}
       </Typography>
       <div>
-        {question.options.map((option) => {
-          return (
-            <div onClick={(e) => handleClick(e.target.innerText)}>
-              <Typography
-                variant="h6"
-                color="textSecondary"
-                style={{
-                  height: 50,
-                  padding: 10,
-                  marginTop: 10,
-                  backgroundColor: clicked
-                    ? answer === optionSelected
-                      ? "green"
-                      : "red"
-                    : "lightpink",
-                }}
-              >
-                {option}
-              </Typography>
-            </div>
-          );
-        })}
+        {question.options.map((option, j) => (
+          <div
+            key={j}
+            onClick={(e) => handleSelect(e.target.innerText.slice(4), j)}
+          >
+            <Option
+              optionNumber={optionNumber++}
+              optionData={option}
+              backgroundColor={"lightBlue"}
+              clicked={clicked}
+              index={j}
+              answer={answer}
+            />
+          </div>
+        ))}
       </div>
     </Paper>
   );
 }
+
+// option box
+const Option = ({
+  optionNumber,
+  optionData,
+  backgroundColor,
+  clicked,
+  index,
+  answer,
+}) => {
+  // color logic
+  backgroundColor =
+    clicked === index
+      ? answer === optionData.toString()
+        ? "lightLime"
+        : "lightPink"
+      : backgroundColor;
+  if (clicked !== "-1") {
+    backgroundColor =
+      answer === optionData.toString() ? "lightGreen" : backgroundColor;
+  }
+  return (
+    <Typography
+      variant="h6"
+      color="textSecondary"
+      style={{
+        height: 50,
+        padding: 10,
+        marginTop: 10,
+        backgroundColor: backgroundColor,
+        borderRadius: 20,
+      }}
+    >
+      {String.fromCharCode(optionNumber)} : {optionData}
+    </Typography>
+  );
+};

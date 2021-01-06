@@ -1,4 +1,4 @@
-import { Card, Container, Typography } from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
 import { Component, React } from "react";
 import "./App.css";
 import QUESTIONS from "./question";
@@ -10,16 +10,19 @@ class App extends Component {
     this.state = {
       questions: QUESTIONS,
       result: 0,
+      totalMarks: 0,
     };
   }
 
   render() {
     let counter = 1;
     return (
-      <Container>
-        <Typography variant="h2">Homepage</Typography>
+      <Container maxWidth="md">
+        <Typography align="center" variant="h2">
+          QuizApp
+        </Typography>
         <div style={{ display: "flex", flexDirection: "row" }}>
-          <div style={{ flex: 5, marginRight: 20 }}>
+          <div style={{ flex: 4, marginRight: 20 }}>
             {this.state.questions.map((question) => {
               return (
                 <QuestionBox
@@ -27,15 +30,22 @@ class App extends Component {
                   question={question}
                   counter={counter++}
                   setResult={(res) => {
-                    this.setState({ result: this.state.result + res }, () => {
-                      console.log(this.state);
-                    });
+                    this.setState(
+                      { result: this.state.result + res },
+                      () => {}
+                    );
+                  }}
+                  setTotalMarks={(marks) => {
+                    this.setState(
+                      { totalMarks: this.state.totalMarks + marks },
+                      () => {}
+                    );
                   }}
                 />
               );
             })}
           </div>
-          <div style={{ flex: 1 }}>
+          <div style={{ flex: 2 }}>
             <div
               style={{
                 position: "fixed",
@@ -46,11 +56,12 @@ class App extends Component {
                 width: 200,
                 textAlign: "center",
                 paddingTop: 40,
+                borderRadius: 20,
               }}
             >
               <Typography variant="h4">RESULT</Typography>
               <Typography variant="h2" color="textSecondary">
-                {this.state.result}/{counter - 1}
+                {this.state.result}/{this.state.totalMarks}
               </Typography>
             </div>
           </div>
