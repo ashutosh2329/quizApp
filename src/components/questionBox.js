@@ -41,7 +41,7 @@ export default function QuestionBox({
             onClick={(e) => handleSelect(e.target.innerText.slice(4), j)}
           >
             <Option
-              optionNumber={optionNumber}
+              optionNumber={optionNumber++}
               optionData={option}
               backgroundColor={"lightBlue"}
               clicked={clicked}
